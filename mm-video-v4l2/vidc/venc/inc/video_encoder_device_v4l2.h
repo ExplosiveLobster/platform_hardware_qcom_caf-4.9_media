@@ -58,6 +58,11 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define ENABLE_P_QP 0x2
 #define ENABLE_B_QP 0x4
 
+extern "C" {
+    void neon_clip_luma_chroma(unsigned char *, unsigned char *,
+            unsigned int, unsigned int, unsigned int, unsigned int);
+}
+
 enum hier_type {
     HIER_NONE = 0x0,
     HIER_P = 0x1,
@@ -534,6 +539,7 @@ class venc_dev
         unsigned long venc_get_codectype(OMX_VIDEO_CODINGTYPE eCompressionFormat);
         bool venc_set_tile_dimension(OMX_U32 nTileDimension);
         bool venc_set_nal_size (OMX_VIDEO_CONFIG_NALSIZE *nalSizeInfo);
+        void venc_clip_luma_chroma(int fd, OMX_U32 offset, OMX_U32 size);
 
         OMX_U32 pmem_free();
         OMX_U32 pmem_allocate(OMX_U32 size, OMX_U32 alignment, OMX_U32 count);
@@ -596,6 +602,7 @@ class venc_dev
         bool venc_set_hdr_info(const MasteringDisplay&, const ContentLightLevel&);
         bool mIsGridset;
         OMX_U32 mTileDimension;
+        char m_platform[OMX_MAX_STRINGNAME_SIZE];
 };
 
 enum instance_state {
