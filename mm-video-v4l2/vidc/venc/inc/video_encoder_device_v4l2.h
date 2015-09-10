@@ -56,6 +56,11 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define MAX_AVC_HP_LAYERS (4)
 #define MAX_V4L2_BUFS 64 //VB2_MAX_FRAME
 
+extern "C" {
+    void neon_clip_luma_chroma(unsigned char *, unsigned char *,
+            unsigned int, unsigned int, unsigned int, unsigned int);
+}
+
 enum hier_type {
     HIER_NONE = 0x0,
     HIER_P = 0x1,
@@ -581,6 +586,7 @@ class venc_dev
         OMX_ERRORTYPE venc_set_temporal_layers(OMX_VIDEO_PARAM_ANDROID_TEMPORALLAYERINGTYPE *pTemporalParams, bool istemporalConfig = false);
         OMX_ERRORTYPE venc_set_temporal_layers_internal();
         bool venc_set_iframesize_type(QOMX_VIDEO_IFRAMESIZE_TYPE type);
+        void venc_clip_luma_chroma(int fd, OMX_U32 offset, OMX_U32 size);
 
 #ifdef MAX_RES_1080P
         OMX_U32 pmem_free();
@@ -644,6 +650,7 @@ class venc_dev
         };
         BatchInfo mBatchInfo;
         bool mUseAVTimerTimestamps;
+        char m_platform[OMX_MAX_STRINGNAME_SIZE];
 };
 
 enum instance_state {
