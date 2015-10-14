@@ -5555,6 +5555,14 @@ bool venc_dev::venc_set_intra_refresh()
     control_mode.id   = V4L2_CID_MPEG_VIDC_VIDEO_INTRA_REFRESH_MODE;
     control_mbs.id    = V4L2_CID_MPEG_VIDC_VIDEO_IR_MBS;
     control_mbs.value = 0;
+
+    if (!strncmp(m_platform, "msm8956", 7) &&
+            (m_sVenc_cfg.codectype == V4L2_PIX_FMT_MPEG4)) {
+        /* intra refresh mode is not supported on msm8956 hw */
+        DEBUG_PRINT_ERROR("intra refresh mode is not supported");
+        return false;
+    }
+
     // There is no disabled mode.  Disabled mode is indicated by a 0 count.
     if (intra_refresh.irmode == OMX_VIDEO_IntraRefreshMax || intra_refresh.mbcount == 0) {
         control_mode.value = V4L2_CID_MPEG_VIDC_VIDEO_INTRA_REFRESH_NONE;
