@@ -2140,6 +2140,7 @@ OMX_ERRORTYPE  omx_video::get_parameter(OMX_IN OMX_HANDLETYPE     hComp,
                 memcpy(pDownScalarParam, &m_sParamDownScalar, sizeof(m_sParamDownScalar));
                 break;
             }
+#if 0
         case OMX_IndexParamConsumerUsageBits:
             {
                 if (paramData == NULL) { return OMX_ErrorBadParameter; }
@@ -2155,6 +2156,7 @@ OMX_ERRORTYPE  omx_video::get_parameter(OMX_IN OMX_HANDLETYPE     hComp,
                 memcpy(consumerUsage, &m_sParamConsumerUsage, sizeof(m_sParamConsumerUsage));
                 break;
             }
+#endif
         case OMX_IndexParamVideoSliceFMO:
         default:
             {
